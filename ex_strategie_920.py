@@ -177,8 +177,8 @@ def run_websocket():
 buy_percent = 10
 qty = 15
 premium_range = 400
-sl = 20 #point
-tsl = 10 #point
+# sl = 20 #point
+tsl = 20 #point
 max_trades = 2 
 # **************************
 
@@ -213,7 +213,7 @@ while True:
                             orderHistory = get_order_history(oid)
                             if orderHistory and orderHistory['status'] == 'complete':
                                 avgPrc = orderHistory['average_price']
-                                sl = avgPrc - sl
+                                # sl = avgPrc - sl
                                 tsl = avgPrc + tsl
                                 option = name
                                 trade = 1
@@ -231,10 +231,10 @@ while True:
 
                 if trade == 1 and ltp >= tsl and option == name:
                     tsl += 2
-                    sl += 2
-                    print(f"Buy SL trailed {option} SL: {sl}")
+                    # sl += 2
+                    print(f"Buy SL trailed {option} SL: {tsl}")
 
-                if trade == 1 and ltp <= sl and option == name:
+                if trade == 1 and ltp <= tsl and option == name:
                     try:
                         oid = place_order(option, qty, 'SELL')
                         if oid:

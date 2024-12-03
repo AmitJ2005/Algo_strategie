@@ -1,13 +1,12 @@
-import ssl, sys
-import upstox_client
-import asyncio, json
-import websockets
-from google.protobuf.json_format import MessageToDict
-from threading import Thread, Lock
-import MarketDataFeed_pb2 as pb
-from time import sleep
-import requests as rq
+import streamlit as st
 import pandas as pd
+from threading import Thread, Lock
+from time import sleep
+import ssl, json, asyncio, websockets
+import upstox_client
+from google.protobuf.json_format import MessageToDict
+import MarketDataFeed_pb2 as pb
+import requests as rq
 import os
 from dotenv import load_dotenv
 
@@ -171,8 +170,6 @@ def run_websocket():
     asyncio.set_event_loop(loop)
     loop.run_until_complete(fetch_market_data())
 
-
-
 # Input Parameters *****
 buy_percent = 10
 qty = 15
@@ -198,6 +195,17 @@ websocket_thread.start()
 sleep(5)
 trade = None
 
+# Streamlit app
+# st.title("Trading Dashboard")
+
+# Display number of trades
+st.header("Number of Trades")
+st.write(trade_count)
+
+# Display trade details
+st.header("Trade Details")
+trade_details = []
+
 while True:
     sleep(1)
     with data_lock:
@@ -218,6 +226,12 @@ while True:
                                 option = name
                                 trade = 1
                                 trade_count += 1  # Increment trade count
+                                trade_details.append({
+                                    "name": name,
+                                    "avg_price": avgPrc,
+                                    "sl_price": sl,
+                                    "tsl_price": tsl
+                                })
                                 print(f"Buy Trade In {name} Price : {avgPrc}")
                             else:
                                 print(f"Order not completed. Status: {orderHistory['status'] if orderHistory else 'Unknown'}, Order ID: {oid}")
@@ -232,6 +246,10 @@ while True:
                 if trade == 1 and ltp >= tsl and option == name:
                     tsl += 2
                     sl += 2
+                    for detail in trade_details:
+                        if detail["name"] == name:
+                            detail["tsl_price"] = tsl
+                            detail["sl_price"] = sl
                     print(f"Buy SL trailed {option} SL: {sl}")
 
                 if trade == 1 and ltp <= sl and option == name:
@@ -247,3 +265,15 @@ while True:
                         continue
             else:
                 print(f"Warning: {name} not found in data feed.")
+
+    # Update Streamlit dashboard
+    st.write(trade_count)
+    for detail in trade_details:
+        st.subheader(f"Trade: {detail['name']}")
+        st.write(f"Average Price: {detail['avg_price']}")
+        st.write(f"Stop Loss Price: {detail['sl_price']}")
+        st.write(f"Trailing Stop Loss Price: {detail['tsl_price']}")
+
+# # Additional useful features
+# st.header("Additional Features")
+# st.write("Here you can add more features as needed.")
