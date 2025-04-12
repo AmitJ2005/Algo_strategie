@@ -1,0 +1,46 @@
+3-12-24
+    Done
+
+    # create a new file as "ex_strategie_920.py" in this remove the SL and print (option name, ltp)
+
+    # in main strategie_920.py remove the print(option name, ltp)
+
+    # create a dashbord.py for see the dashbord rather than console 
+
+
+4-12-24
+
+    task
+
+    # test the dashbord.py file and check all dashbord are showing properly or not
+
+    # test the ex_strategie_920 file and check the working properly or not
+
+    resulte
+
+    # ex_strategie_920 file the code was buy and after that sell at same time not stay on it 
+
+    # dashbord.py was not test today 
+
+    problem
+
+    # try to slove the [ --- print(f"Warning: {name} not found in data feed.") ---]  in console 
+
+
+5-12-24
+
+    task
+
+    # test the dashbord.py file 
+    
+    # slove the problem [ --- print(f"Warning: {name} not found in data feed.") --- ]
+
+    resulte
+
+    # not test any code - self trade 
+
+6-12-24
+
+    resulte
+
+    # not test any code - self trade

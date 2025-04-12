@@ -176,15 +176,15 @@ def run_websocket():
 # Input Parameters *****
 buy_percent = 10
 qty = 15
-premium_range = 400
-# sl = 20 #point
-tsl = 20 #point
+premium_range = 900
+sl = 20 #point
+tsl = 10 #point
 max_trades = 2 
 # **************************
 
 trade_count = 0  # Initialize trade count
 
-BNDF = filter_df(df, 30)
+BNDF = filter_df(df, 15)
 optionChain = list(BNDF['instrument_key'])
 
 trade_symbol = find_option(premium_range, optionChain)
@@ -213,7 +213,7 @@ while True:
                             orderHistory = get_order_history(oid)
                             if orderHistory and orderHistory['status'] == 'complete':
                                 avgPrc = orderHistory['average_price']
-                                # sl = avgPrc - sl
+                                sl = avgPrc - sl
                                 tsl = avgPrc + tsl
                                 option = name
                                 trade = 1
@@ -231,10 +231,10 @@ while True:
 
                 if trade == 1 and ltp >= tsl and option == name:
                     tsl += 2
-                    # sl += 2
-                    print(f"Buy SL trailed {option} SL: {tsl}")
+                    sl += 2
+                    print(f"Buy SL trailed {option} SL: {sl}")
 
-                if trade == 1 and ltp <= tsl and option == name:
+                if trade == 1 and ltp <= sl and option == name:
                     try:
                         oid = place_order(option, qty, 'SELL')
                         if oid:

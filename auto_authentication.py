@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import urllib.parse as urlparse
 from dotenv import load_dotenv, set_key
 import os
+
 from pyotp import TOTP
 
 # Load environment variables from the .env file

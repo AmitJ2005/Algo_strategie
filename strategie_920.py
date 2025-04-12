@@ -175,8 +175,8 @@ def run_websocket():
 
 # Input Parameters *****
 buy_percent = 10
-qty = 15
-premium_range = 400
+qty = 30
+premium_range = 600
 sl = 20 #point
 tsl = 10 #point
 max_trades = 2 
@@ -184,7 +184,7 @@ max_trades = 2
 
 trade_count = 0  # Initialize trade count
 
-BNDF = filter_df(df, 15)
+BNDF = filter_df(df, 30)
 optionChain = list(BNDF['instrument_key'])
 
 trade_symbol = find_option(premium_range, optionChain)
